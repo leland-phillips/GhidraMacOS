@@ -2,8 +2,8 @@ import os
 import shutil
 import subprocess
 import tarfile
-import urllib.request
 import zipfile
+import requests
 
 from colorama import Fore, Style, init
 from tqdm import tqdm
@@ -89,7 +89,8 @@ class Helper:
                     t.total = totalsize
                     t.update(blocknum * blocksize - t.n)
 
-                urllib.request.urlretrieve(url, dest, reporthook)
+                with open(dest, "wb") as f:
+                    f.write(requests.get(url).content)
         except Exception as e:
             print(f"{Fore.RED}Error downloading {url}: {e}{Style.RESET_ALL}")
             raise
